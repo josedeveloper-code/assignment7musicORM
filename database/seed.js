@@ -1,13 +1,14 @@
-// Import database and model
+// Import the database instance and the Track model from setup.js
+// Adjust the path '../database/setup' if your file structure is different
+const { sequelize, Track } = require('./setup'); 
 
-// Seed data
-const sampleTracks = [
+const seedData = [
   {
     songTitle: "Bohemian Rhapsody",
     artistName: "Queen",
     albumName: "A Night at the Opera",
     genre: "Rock",
-    duration: 355,
+    duration: 354,
     releaseYear: 1975
   },
   {
@@ -19,85 +20,33 @@ const sampleTracks = [
     releaseYear: 1982
   },
   {
-    songTitle: "Stairway to Heaven",
-    artistName: "Led Zeppelin",
-    albumName: "Led Zeppelin IV",
+    songTitle: "Hotel California",
+    artistName: "Eagles",
+    albumName: "Hotel California",
     genre: "Rock",
-    duration: 482,
-    releaseYear: 1971
-  },
-  {
-    songTitle: "Imagine",
-    artistName: "John Lennon",
-    albumName: "Imagine",
-    genre: "Rock",
-    duration: 183,
-    releaseYear: 1971
-  },
-  {
-    songTitle: "Like a Rolling Stone",
-    artistName: "Bob Dylan",
-    albumName: "Highway 61 Revisited",
-    genre: "Folk Rock",
-    duration: 369,
-    releaseYear: 1965
-  },
-  {
-    songTitle: "What's Going On",
-    artistName: "Marvin Gaye",
-    albumName: "What's Going On",
-    genre: "Soul",
-    duration: 232,
-    releaseYear: 1971
-  },
-  {
-    songTitle: "Purple Haze",
-    artistName: "The Jimi Hendrix Experience",
-    albumName: "Are You Experienced",
-    genre: "Rock",
-    duration: 167,
-    releaseYear: 1967
-  },
-  {
-    songTitle: "Respect",
-    artistName: "Aretha Franklin",
-    albumName: "I Never Loved a Man the Way I Love You",
-    genre: "Soul",
-    duration: 147,
-    releaseYear: 1967
-  },
-  {
-    songTitle: "Good Vibrations",
-    artistName: "The Beach Boys",
-    albumName: "Pet Sounds",
-    genre: "Pop",
-    duration: 219,
-    releaseYear: 1966
-  },
-  {
-    songTitle: "Hey Jude",
-    artistName: "The Beatles",
-    albumName: "Past Masters",
-    genre: "Rock",
-    duration: 431,
-    releaseYear: 1968
-  },
-  {
-    songTitle: "Smells Like Teen Spirit",
-    artistName: "Nirvana",
-    albumName: "Nevermind",
-    genre: "Grunge",
-    duration: 301,
-    releaseYear: 1991
-  },
-  {
-    songTitle: "I Want to Hold Your Hand",
-    artistName: "The Beatles",
-    albumName: "Meet the Beatles!",
-    genre: "Rock",
-    duration: 145,
-    releaseYear: 1963
+    duration: 391,
+    releaseYear: 1976
   }
 ];
 
-// Seed database with sample data
+async function seedDatabase() {
+  try {
+    // Authenticate the connection
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+
+    // Use bulkCreate to insert all tracks at once
+    await Track.bulkCreate(seedData);
+    console.log('Database seeded successfully!');
+
+  } catch (error) {
+    console.error('Unable to seed the database:', error);
+  } finally {
+    // Always close the connection
+    await sequelize.close();
+    console.log('Database connection closed.');
+  }
+}
+
+// Execute the seed function
+seedDatabase();

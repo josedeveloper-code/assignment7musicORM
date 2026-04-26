@@ -89,3 +89,14 @@ music-library-api/
 ├── .gitignore
 └── README.md
 ```
+
+project-root/
+│
+├── database/
+│   ├── setup.js
+│   └── seed.js
+│
+├── .env
+├── server.js
+├── package.json
+└── music_library.db
